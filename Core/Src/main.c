@@ -2023,27 +2023,29 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	if (htim->Instance == htim4.Instance)
 	{
 		Flag_Refrash = True;
-		Runcount++;
-		if(Runcount%5)
+//		Runcount++;
+//		if(Runcount%5)
 		{
 			if(Display_Mode!=MODE_OFFLINE)
-			switch(Device_Cmd.commandrgbmode)
 			{
-				case 1:
-				switch(Display_Mode)
+				switch(Device_Cmd.commandrgbmode)
 				{
-					case MODE_DEFALUT:SK6812_WheelAll(Device_Cmd.commandrgbcolor);break;
-					case MODE_DATE:SK6812_WheelAll(Device_Cmd.commandrgbcolor);break;
-					case MODE_NORMAL:SK6812_Wheel(1,Temp+=2);break;
-					case MODE_GAME:SK6812_WheelS(1,Temp+=3);break;
-					case MODE_OFFLINE:SK6812_Same(0,40,50);break;
-					case MODE_SLEEP:SK6812_Same(0,40,50);break;
-					case MODE_MUSIC:SK6812_WheelS(1,Temp+=6);break;
-					default:Display_Mode = MODE_DEFALUT;break;
-				}break;
-				case 2:SK6812_WheelS(1,Temp+=6);break;
-				case 3:SK6812_WheelAll(Device_Cmd.commandrgbcolor);break;
-				default:SK6812_Same(0,40,50);break;
+					case 1:
+					switch(Display_Mode)
+					{
+						case MODE_DEFALUT:SK6812_WheelAll(Device_Cmd.commandrgbcolor);break;
+						case MODE_DATE:SK6812_WheelAll(Device_Cmd.commandrgbcolor);break;
+						case MODE_NORMAL:SK6812_Wheel(1,Temp+=2);break;
+						case MODE_GAME:SK6812_WheelS(1,Temp+=3);break;
+						case MODE_OFFLINE:SK6812_Same(0,40,50);break;
+						case MODE_SLEEP:SK6812_Same(0,40,50);break;
+						case MODE_MUSIC:SK6812_WheelS(1,Temp+=6);break;
+						default:Display_Mode = MODE_DEFALUT;break;
+					}break;
+					case 2:SK6812_WheelS(1,Temp+=6);break;
+					case 3:SK6812_WheelAll(Device_Cmd.commandrgbcolor);break;
+					default:SK6812_Same(0,40,50);break;
+				}
 			}
 			else
 				SK6812_WheelAll(Device_Cmd.commandrgbcolor);
@@ -2128,9 +2130,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 #if GEMINI == 1
 				if(HumanCount==0)
 				{
-					RGBBright = 25;
-					OLEDBright = 2;
-					VFD_Bright = 10;
+					RGBBright = 0;
+					OLEDBright = 0;
+					VFD_Bright = 2;
 					OLEDBk = False;
 				}
 #else

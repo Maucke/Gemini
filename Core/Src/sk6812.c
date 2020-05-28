@@ -246,8 +246,9 @@ void SK6812_Flow()
 
 void SK6812_Refrash(void)
 {
-	u8 i;
-	for(i=0;i<RGBIndex;i++)
+	u8 i=0;
+	SK6812_Write(RGBRAM[i][1],RGBRAM[i][0],RGBRAM[i][2]);
+	for(i=1;i<RGBIndex;i++)
 	{
 		SK6812_Write(RGBRAM[i][0],RGBRAM[i][1],RGBRAM[i][2]);
 	}

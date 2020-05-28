@@ -7,3 +7,6 @@
 /main.o
 /stm32f1xx_it.crf
 /stm32f1xx_it.o
+*.o
+*.crf
+*.hex

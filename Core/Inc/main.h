@@ -68,8 +68,8 @@ extern "C" {
 #define MODE_AIWORK		  		0x07
 
 
-#define GEMINI False
-#define MARKC True
+#define GEMINI True
+#define MARKC False
 #define TEACH False
 extern uint8_t RespFlag;
 extern u8 APDSFlag;
