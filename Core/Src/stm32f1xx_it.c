@@ -381,9 +381,6 @@ void USART2_IRQHandler(void)
 		{
 			AnalysisWiFiString(Uart_Recv2_Buf);
 			AnalysisWiFiInter(Uart_Recv2_Buf);
-//			AnalysisComputermsg(Uart_Recv2_Buf);
-//			AnalysisFFT(Uart_Recv2_Buf);
-//			AnalysisCommand(Uart_Recv2_Buf);
 		}
 		Uart_Recv2_Length = 0;
 		HAL_UART_Receive_DMA(&huart2,Uart_Recv2_Buf,Uart_Max_Length);
