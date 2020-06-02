@@ -685,7 +685,7 @@ void Recvcmd(void)
 	Device_Cmd.commandspeed = MAKEWORD(CMD[7],CMD[6]);
 	Device_Cmd.commandbrightness = MAKEWORD(CMD[9],CMD[8]);
 	Device_Cmd.commandset = MAKEWORD(CMD[11],CMD[10]);
-	Device_Cmd.commandmode = MAKEWORD(CMD[13],CMD[12]);
+	Device_Cmd.commandrgbmode = MAKEWORD(CMD[13],CMD[12]);
 	Device_Cmd.commandrgbcolor = MAKEWORD(CMD[15],CMD[14]);
 	Device_Cmd.commandrgbbrightness = MAKEWORD(CMD[17],CMD[16]);
 	Device_Cmd.commandvfdbrightness = MAKEWORD(CMD[19],CMD[18]);

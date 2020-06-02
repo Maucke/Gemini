@@ -1407,7 +1407,7 @@ void DATE_MainDisplay()
 		}
 	}
 	else
-		Motion_WEATHER(BTVPostionX,RandomPosY+6,ConvertWeather(WiFi_Msg.weathernum));
+		Motion_WEATHER(BTVPostionX,RandomPosY+6,ConvertWeather(WiFi_Msg.weather1num));
 #else
 		Flow_BTV();
 #endif
@@ -2015,7 +2015,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	static u16 SleepCount = 0;
 //	static u8 U3WatchDogCount = 0;
 	static u16 ContinueCount = 0;
-	static u16 Runcount = 0;
+//	static u16 Runcount = 0;
 	static u16 FixTimeCount = 0;
 	static u8 RunC = 0;
 	static u8 RunB = 0;
@@ -2026,7 +2026,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //		Runcount++;
 //		if(Runcount%5)
 		{
-			if(Display_Mode!=MODE_OFFLINE)
+//			if(Display_Mode!=MODE_OFFLINE)
 			{
 				switch(Device_Cmd.commandrgbmode)
 				{
@@ -2037,18 +2037,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 						case MODE_DATE:SK6812_WheelAll(Device_Cmd.commandrgbcolor);break;
 						case MODE_NORMAL:SK6812_Wheel(1,Temp+=2);break;
 						case MODE_GAME:SK6812_WheelS(1,Temp+=3);break;
-						case MODE_OFFLINE:SK6812_Same(0,40,50);break;
-						case MODE_SLEEP:SK6812_Same(0,40,50);break;
 						case MODE_MUSIC:SK6812_WheelS(1,Temp+=6);break;
-						default:Display_Mode = MODE_DEFALUT;break;
+						default:SK6812_Wheel(1,Temp+=2);break;
 					}break;
 					case 2:SK6812_WheelS(1,Temp+=6);break;
 					case 3:SK6812_WheelAll(Device_Cmd.commandrgbcolor);break;
-					default:SK6812_Same(0,40,50);break;
+					default:SK6812_WheelAll(Device_Cmd.commandrgbcolor);break;
 				}
 			}
-			else
-				SK6812_WheelAll(Device_Cmd.commandrgbcolor);
+//			else
+//				SK6812_WheelAll(Device_Cmd.commandrgbcolor);
 		}
 		SK6812_Flow();
 		

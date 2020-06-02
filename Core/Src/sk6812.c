@@ -278,6 +278,12 @@ void SK6812_WheelAll(u16 WheelPos)
 			RGBTAG[i][1] = WheelPos-(RGBBright*2);
 			RGBTAG[i][2] = 0;
 		}
+		if(RGBBright<10)
+		{
+			RGBTAG[i][0] = RGBBright;
+			RGBTAG[i][1] = RGBBright;
+			RGBTAG[i][2] = RGBBright;
+		}
 	}
 }
 
@@ -306,6 +312,12 @@ void SK6812_Wheel(u8 Type,u16 WheelPos)
 			RGBTAG[i][2] = Type*RGBBright/2;
 		}
 		WheelPos +=16;
+		if(RGBBright<10)
+		{
+			RGBTAG[i][0] = RGBBright;
+			RGBTAG[i][1] = RGBBright;
+			RGBTAG[i][2] = RGBBright;
+		}
 	}
 }
 
@@ -334,6 +346,12 @@ void SK6812_WheelS(u8 Type,u16 WheelPos)
 			RGBTAG[i][2] = 0;
 		}
 		WheelPos +=24;
+		if(RGBBright<10)
+		{
+			RGBTAG[i][0] = RGBBright;
+			RGBTAG[i][1] = RGBBright;
+			RGBTAG[i][2] = RGBBright;
+		}
 	}
 }
 
