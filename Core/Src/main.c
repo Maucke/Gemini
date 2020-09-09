@@ -1417,6 +1417,7 @@ void DATE_MainDisplay()
 void DATEUI_Init()
 {
 	int i;
+	SetTimeFlag = True;
 	CalcTIMED(ds3231.Mon,ds3231.Week);
 	SHOW_CORN.BTV = True;
 	for(i = 0;i<20;i++)
@@ -2177,7 +2178,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		{
 //			printf("FixTimeCount:%d\r\n",FixTimeCount);
 			if(SetTimeFlag)
-			if((FixTimeCount++%3600==10)||(DS3231_US_Buf[6]<0x18))
+			if(Device_Msg.uartsecond!=0)
 			{
 				DS3231_SetUart();
 				SetTimeFlag = False;
@@ -2192,7 +2193,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			VFD_Corn(MESSG,RunC);
 //			printf("FixTimeCount:%d\r\n",FixTimeCount);
 			if(SetTimeFlag)
-			if((FixTimeCount++%3600==10)||(DS3231_US_Buf[6]<0x18))
+			if(WiFi_Msg.second!=0)
 			{
 				DS3231_SetWiFi();
 				SetTimeFlag = False;
@@ -2217,11 +2218,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			VFD_Corn(DOLBY,Clock_Msg.aiwork);
 			if(Clock_Msg.aiwork)
 				VoiceFlag = True;
-			if(VFDTipCount == 0)
 			{
 				if(Mi_Msg.wifi!=Clock_Msg.wifi)
 				{
 					Mi_Msg.wifi = Clock_Msg.wifi;
+					Mi_Msg.cation = Clock_Msg.cation;
+					Mi_Msg.alarm = Clock_Msg.alarm;
+					Mi_Msg.mute = Clock_Msg.mute;
 					VFDTipCount = 300;
 					sprintf(VFDTip,"CONNECTING");
 				}
@@ -2251,13 +2254,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 						sprintf(VFDTip,"MIC OFF");
 					else sprintf(VFDTip,"MIC ON");
 				}
-			}
-			else
-			{
-				Mi_Msg.cation = Clock_Msg.cation;
-				Mi_Msg.alarm = Clock_Msg.alarm;
-				Mi_Msg.mute = Clock_Msg.mute;
-				Mi_Msg.wifi = Clock_Msg.wifi;
 			}
 //			U3WatchDogCount = 0;
 			Uart_Overflow3_Flag = False;
