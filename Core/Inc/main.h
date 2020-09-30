@@ -64,7 +64,8 @@ extern "C" {
 #define MODE_MUSIC     			0x03
 #define MODE_NORMAL   		  0x04
 #define MODE_GAME  					0x05
-#define MODE_SLEEP		  		0x06
+#define MODE_SLEEP		  		0x08
+#define MODE_SHOW		  		0x06
 #define MODE_AIWORK		  		0x07
 
 

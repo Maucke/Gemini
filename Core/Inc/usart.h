@@ -28,6 +28,7 @@
 
 /* USER CODE BEGIN Includes */
 #include "sys.h"
+#include "ds3231.h"
 /* USER CODE END Includes */
 
 extern UART_HandleTypeDef huart1;
@@ -53,7 +54,6 @@ extern uint8_t Uart_Overflow3_Flag;
 #define RAB_FLASH 1024*1024	//1MB
 #define ROG_FLASH 4096	//400KB
 #define SAVE_FLASH 0
-
 extern u8 Uart_Recv3_Data;
 typedef struct
 {
@@ -294,6 +294,7 @@ typedef struct
 extern u8 SaveFlag;
 extern DEVICE_STR Device_Str;
 extern DEVICE_MSG Device_Msg;
+extern DEVICE_MSG Device_MsgNc;
 extern DEVICE_CMD Device_Cmd;
 extern WIFI_MSG WiFi_Msg;
 extern uint8_t OfflineCount;

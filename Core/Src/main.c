@@ -289,7 +289,6 @@ int main(void)
 	{
 		OLED_Boot();
 	}
-	SystemActive = True;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -315,6 +314,7 @@ int main(void)
 			case MODE_SLEEP:SLEEP_Mode();break;
 			case MODE_MUSIC:MUSIC_Mode();break;
 			case MODE_AIWORK:AIWORK_Mode();break;
+			case MODE_SHOW:OLED_Boot();break;
 			default:Display_Mode = MODE_DEFALUT;break;
 		}
   }
@@ -369,6 +369,7 @@ void SystemClock_Config(void)
 
 void OLED_Boot(void)
 {
+	SystemActive=False;
 #if GEMINI == 1
 	
 	int i;
@@ -416,6 +417,7 @@ void OLED_Boot(void)
 	OLED_Refresh_Gram();
 	HAL_Delay(200);
 #endif
+	SystemActive=True;
 }
 
 u8 flow_vfdpot[82];
@@ -831,6 +833,7 @@ void VFD_Display(void)
 		VFD_PNTTIME();
 		VFD_Bow(0,5,7,2,0);break;
 		case MODE_SLEEP:VFD_Bow(0,47,5,5,1);break;
+		case MODE_SHOW:VFD_Bow(0,47,5,5,1);break;
 		case MODE_MUSIC:VFD_Load();VFD_PNTCls();VFD_Bow(0,47,5,5,1);break;
 		default:Display_Mode = MODE_DEFALUT;break;
 	}
@@ -1171,7 +1174,6 @@ void MUSICUI_Init()
 		flow_pot[i] = 95;
 	}
 	
-	Flag_Reception = False;
 	ClearFFT();
 	for(i=0;i<15;)
 	{
@@ -1196,7 +1198,6 @@ void MUSICUI_Init()
 			HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
 		}
 	}
-	Flag_Reception = True;
 	OLED_Clear();
 }
 
@@ -1204,7 +1205,6 @@ void MUSICUI_Out()
 {
 	u8 i;
 	
-	Flag_Reception = False;
 	ClearFFT();
 	for(i=0;i<30;)
 	{
@@ -1229,7 +1229,6 @@ void MUSICUI_Out()
 			HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
 		}
 	}
-	Flag_Reception = True;
 	OLED_Clear();
 }
 
@@ -1237,7 +1236,9 @@ void MUSICUI_Out()
 
 void MUSIC_Mode(void)
 {
+	Flag_Reception = False;
 	MUSICUI_Init();
+	Flag_Reception = True;
 	while(Display_Mode == MODE_MUSIC)
 	{
 		if(Flag_Refrash)
@@ -1266,7 +1267,9 @@ void MUSIC_Mode(void)
 			HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
 		}
 	}
+	Flag_Reception = False;
 	MUSICUI_Out();
+	Flag_Reception = True;
 }
 
 void Judge_Notification(void)
@@ -1698,6 +1701,7 @@ void NORMAL_MainDisplay(void)
 
 void NORMALUI_Init(void)
 {
+	InitData();
 	Notbarautoflag = True;
 	Notbarrefsflag = True;
 	OLED_Clear();
@@ -1716,8 +1720,6 @@ void NORMALUI_Init(void)
 	OLED_Part(24,66+2,5,16,Corn_Freq);
 	OLED_Part(24,82+2,5,10,Corn_Load);
 	HAL_TIM_Base_Start_IT(&htim6);
-	Flag_Reception = False;
-	InitData();
 	Device_Msg.cpuload = 1000;
 	Device_Msg.gpuload = 1000;
 	while(!Flag_Continue)
@@ -1733,7 +1735,6 @@ void NORMALUI_Init(void)
 	}
 	Flag_Continue = False;
 	HAL_TIM_Base_Start_IT(&htim6);
-	Flag_Reception = True;
 	while(!Flag_Continue)
 	{
 		if(Flag_Refrash)
@@ -1780,7 +1781,9 @@ void NORMAL_Mode(void)
 {
 	static u16 SleepTypo = 0;
 	static u8 FlashFlag = 0;
+	Flag_Reception = False;
 	NORMALUI_Init();
+	Flag_Reception = True;
 	while(Display_Mode == MODE_NORMAL)
 	{
 		if(Flag_Refrash)
@@ -1809,7 +1812,9 @@ void NORMAL_Mode(void)
 			OLED_Refresh_Gram();
 		}
 	}
+	Flag_Reception = False;
 	NORMALUI_Out();
+	Flag_Reception = True;
 }
 
 void GAME_MainDisplay(void)
@@ -1833,7 +1838,6 @@ void GAME_MainDisplay(void)
 void GAME_Out(void)
 {
 	int i;
-	Flag_Reception = False;
 	InitData();
 	sprintf(Display_State,"%4s",Device_Str.ramusrdata);
 	Device_Msg.cpuload = 0;
@@ -1868,13 +1872,11 @@ void GAME_Out(void)
 			break;
 	}
 	DampValueClear();
-	Flag_Reception = True;
 }	
 
 void GAME_Init(void)
 {
 	int i;
-	Flag_Reception = False;
 	InitData();
 	Device_Msg.cpuload = 1000;
 	Device_Msg.gpuload = 1000;
@@ -1906,13 +1908,14 @@ void GAME_Init(void)
 			OLED_Refresh_Gram();
 		}
 	}
-	Flag_Reception = True;
 }	
 
 void GAME_Mode(void)
 {
 	static u16 SleepTypo = 0;
+	Flag_Reception = False;
 	GAME_Init();
+	Flag_Reception = True;
 	while(Display_Mode == MODE_GAME)
 	{
 		if(Flag_Refrash)
@@ -1941,7 +1944,9 @@ void GAME_Mode(void)
 			OLED_Refresh_Gram();
 		}
 	}
+	Flag_Reception = False;
 	GAME_Out();
+	Flag_Reception = True;
 }
 
 u8 TimeSystem_Convert(u8 Hour,u8 Sys)
@@ -2178,7 +2183,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		{
 //			printf("FixTimeCount:%d\r\n",FixTimeCount);
 			if(SetTimeFlag)
-			if(Device_Msg.uartsecond!=0)
+			if(Device_MsgNc.uartsecond!=0)
 			{
 				DS3231_SetUart();
 				SetTimeFlag = False;

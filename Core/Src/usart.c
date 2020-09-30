@@ -357,6 +357,7 @@ uint8_t Nix2Num(uint8_t Input)
 CLOCK_MSG Clock_Msg;
 DEVICE_CMD Device_Cmd;
 DEVICE_MSG Device_Msg;
+DEVICE_MSG Device_MsgNc;
 DEVICE_STR Device_Str;
 WIFI_MSG WiFi_Msg;
 
@@ -530,25 +531,25 @@ void AnalysisComputermsg(uint8_t *Buf)
 				break;
 
 			case Uart_Year:
-				Device_Msg.uartyear = MAKEWORD(Buf[6],Buf[5]);
+				Device_MsgNc.uartyear = MAKEWORD(Buf[6],Buf[5]);
 				break;
 			case Uart_Month:
-				Device_Msg.uartmonth = MAKEWORD(Buf[6],Buf[5]);
+				Device_MsgNc.uartmonth = MAKEWORD(Buf[6],Buf[5]);
 				break;
 			case Uart_Day:
-				Device_Msg.uartday = MAKEWORD(Buf[6],Buf[5]);
+				Device_MsgNc.uartday = MAKEWORD(Buf[6],Buf[5]);
 				break;
 			case Uart_Week:
-				Device_Msg.uartweek = MAKEWORD(Buf[6],Buf[5]);
+				Device_MsgNc.uartweek = MAKEWORD(Buf[6],Buf[5]);
 				break;
 			case Uart_Hour:
-				Device_Msg.uarthour = MAKEWORD(Buf[6],Buf[5]);
+				Device_MsgNc.uarthour = MAKEWORD(Buf[6],Buf[5]);
 				break;
 			case Uart_Minute:
-				Device_Msg.uartminute = MAKEWORD(Buf[6],Buf[5]);
+				Device_MsgNc.uartminute = MAKEWORD(Buf[6],Buf[5]);
 				break;
 			case Uart_Second:
-				Device_Msg.uartsecond = MAKEWORD(Buf[6],Buf[5]);
+				Device_MsgNc.uartsecond = MAKEWORD(Buf[6],Buf[5]);
 				break;
 			case End_Frame_ADDR:
 				if(MAKEWORD(Buf[6],Buf[5]) == 0x5A5A)
@@ -561,6 +562,7 @@ void AnalysisComputermsg(uint8_t *Buf)
 					}
 				}break;
 			case 0x3F3F:
+				
 				ReponseID[2] = (Buf[5] & 0x5A) | (Buf[6] & 0xA5);
 				ReponseID[3] = (Buf[5] ^ 0x57) | (Buf[6] & 0x57);
 				HAL_UART_Transmit_IT(&huart1,ReponseID,11);RespFlag = True;break;
@@ -685,7 +687,7 @@ void Recvcmd(void)
 	Device_Cmd.commandspeed = MAKEWORD(CMD[7],CMD[6]);
 	Device_Cmd.commandbrightness = MAKEWORD(CMD[9],CMD[8]);
 	Device_Cmd.commandset = MAKEWORD(CMD[11],CMD[10]);
-	Device_Cmd.commandrgbmode = MAKEWORD(CMD[13],CMD[12]);
+	Device_Cmd.commandmode = MAKEWORD(CMD[13],CMD[12]);
 	Device_Cmd.commandrgbcolor = MAKEWORD(CMD[15],CMD[14]);
 	Device_Cmd.commandrgbbrightness = MAKEWORD(CMD[17],CMD[16]);
 	Device_Cmd.commandvfdbrightness = MAKEWORD(CMD[19],CMD[18]);
