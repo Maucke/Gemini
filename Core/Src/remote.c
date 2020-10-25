@@ -19,13 +19,13 @@ TIM_HandleTypeDef TIM5_Handler;      //定时器4句柄
 void Remote_Init(void)
 {  
 	
-#if GEMINI == 1
+//#if GEMINI == 1
 	TIM_IC_InitTypeDef TIM5_CH2Config;  
 	
 	TIM5_Handler.Instance=TIM5;                          //通用定时器4
 	TIM5_Handler.Init.Prescaler=(72-1);                	 //预分频器,1M的计数频率,1us加1.
 	TIM5_Handler.Init.CounterMode=TIM_COUNTERMODE_UP;    //向上计数器
-	TIM5_Handler.Init.Period=10000;                      //自动装载值
+	TIM5_Handler.Init.Period=10000-1;                      //自动装载值
 	TIM5_Handler.Init.ClockDivision=TIM_CLOCKDIVISION_DIV1;
 	HAL_TIM_IC_Init(&TIM5_Handler);
 	
@@ -38,18 +38,18 @@ void Remote_Init(void)
 	HAL_TIM_IC_Start_IT(&TIM5_Handler,TIM_CHANNEL_2);   //开始捕获TIM5的通道4
 	__HAL_TIM_ENABLE_IT(&TIM5_Handler,TIM_IT_UPDATE);   //使能更新中断
 	
-#else
-	
-  TIM5_Handler.Instance = TIM5;
-  TIM5_Handler.Init.Prescaler = 71;
-  TIM5_Handler.Init.CounterMode = TIM_COUNTERMODE_UP;
-  TIM5_Handler.Init.Period = 10000;
-  TIM5_Handler.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  TIM5_Handler.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
-  HAL_TIM_IC_Init(&TIM5_Handler);
-	HAL_TIM_Base_Start_IT(&TIM5_Handler);
-#endif
-	
+//#else
+//	
+//  TIM5_Handler.Instance = TIM5;
+//  TIM5_Handler.Init.Prescaler = 71;
+//  TIM5_Handler.Init.CounterMode = TIM_COUNTERMODE_UP;
+//  TIM5_Handler.Init.Period = 10000;
+//  TIM5_Handler.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+//  TIM5_Handler.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+//  HAL_TIM_IC_Init(&TIM5_Handler);
+//	HAL_TIM_Base_Start_IT(&TIM5_Handler);
+//#endif
+//	
 }
 
 //定时器1底层驱动，时钟使能，引脚配置
@@ -67,7 +67,7 @@ void HAL_TIM_IC_MspInit(TIM_HandleTypeDef *htim)
     GPIO_Initure.Speed=GPIO_SPEED_FREQ_HIGH;     //高速
     HAL_GPIO_Init(GPIOA,&GPIO_Initure);
 
-    HAL_NVIC_SetPriority(TIM5_IRQn,0,0); 	//设置中断优先级，抢占优先级1，子优先级3
+    HAL_NVIC_SetPriority(TIM5_IRQn,1,1); 	//设置中断优先级，抢占优先级1，子优先级3
     HAL_NVIC_EnableIRQ(TIM5_IRQn);       	//开启ITM4中断
 }
 

@@ -249,26 +249,26 @@ int main(void)
 	UsartCommand(0xA002,3);//ªÒ»°√¸¡Ó
 //	HAL_Delay(200);
 #if GEMINI == 1
-	SparkFun_APDS9960();
-	HAL_Delay(10);
-	printf("APDS-9960 complete\r\n");
-	if(SparkFun_APDS9960_init()) 
-	{
-		printf("APDS-9960 initialization complete\r\n");
-	} 
-	else  
-	{
-		printf("Something went wrong during APDS-9960 init!\r\n");
-	}   
-	HAL_Delay(10);
-	if (enableGestureSensor(true) ) 
-	{
-		printf("Gesture sensor is now running\r\n");
-	} 
-	else 
-	{
-		printf("Something went wrong during gesture sensor init!\r\n");
-	}
+//	SparkFun_APDS9960();
+//	HAL_Delay(10);
+//	printf("APDS-9960 complete\r\n");
+//	if(SparkFun_APDS9960_init()) 
+//	{
+//		printf("APDS-9960 initialization complete\r\n");
+//	} 
+//	else  
+//	{
+//		printf("Something went wrong during APDS-9960 init!\r\n");
+//	}   
+//	HAL_Delay(10);
+//	if (enableGestureSensor(true) ) 
+//	{
+//		printf("Gesture sensor is now running\r\n");
+//	} 
+//	else 
+//	{
+//		printf("Something went wrong during gesture sensor init!\r\n");
+//	}
 #endif
 //	Device_Cmd.commandmotion = 0xF;
 //	Device_Cmd.commandspeed = 500;
@@ -1410,7 +1410,7 @@ void DATE_MainDisplay()
 		}
 	}
 	else
-		Motion_WEATHER(BTVPostionX,RandomPosY+6,ConvertWeather(WiFi_Msg.weather1num));
+		Motion_WEATHER(BTVPostionX,RandomPosY+6,ConvertWeather(WiFi_Msg.weathernum));
 #else
 		Flow_BTV();
 #endif
@@ -1978,7 +1978,7 @@ void Remote_Control(u8 Value)
 			HAL_GPIO_WritePin(GPIOA,DS_PW_Pin,GPIO_PIN_RESET);
 		switch(Value)
 		{
-			case IRF_1:Device_Cmd.commandrgbcolor = 25.5*1;ChangeCmd(Command_RGBColor);break;
+			case IRF_1:Device_Cmd.commandrgbcolor = 25.5*1;ChangeCmd(Command_RGBColor);VFDTipCount = 300;sprintf(VFDTip,"CONNECTING");break;
 			case IRF_2:Device_Cmd.commandrgbcolor = 25.5*2;ChangeCmd(Command_RGBColor);break;
 			case IRF_3:Device_Cmd.commandrgbcolor = 25.5*3;ChangeCmd(Command_RGBColor);break;
 			case IRF_4:Device_Cmd.commandrgbcolor = 25.5*4;ChangeCmd(Command_RGBColor);break;
@@ -2099,6 +2099,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 #if GEMINI == 1
 		{
 			Remote_Control(Remote_Scan());
+//			printf("PA1:%d",HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_1));
 		}
 #endif 
 	}

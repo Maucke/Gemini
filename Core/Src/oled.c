@@ -45,7 +45,7 @@ void OLED_Refresh_AddBack(u8 Set)
 		if(YStep > 0) {YStep-=2;}
 	for(n=0;n<152;n++) for(i=0;i<YStep;i++) OLED_GRAM[n][i]|=0x11;  
 }
-
+ 
 u16 OLEDBright = 0xf0;
 u8 OLEDBk = True;
 //¸üÐÂÏÔ´æµ½LCD		 
@@ -84,7 +84,7 @@ void OLED_Refresh_Gram(void)
 //		Brightness = OLEDBright;		
 	if(SystemActive)
 	{
-		OLED_Refresh_AddBack(OLEDBk);
+//		OLED_Refresh_AddBack(OLEDBk);
 	}			
 	for(i=0;i<96;i++)  
 	{  
